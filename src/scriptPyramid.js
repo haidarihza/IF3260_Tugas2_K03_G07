@@ -404,7 +404,7 @@ function setGeometry(gl) {
   let c = a+b
   let d = a+2*b
   let e = b
-  let f = 87.5
+  let f = (d-b)/2
   let g = f + b
 
   gl.bufferData(
