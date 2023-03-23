@@ -13,6 +13,7 @@ var cameraRotate = document.getElementById("camera-rotate");
 var cameraRadius = document.getElementById("camera-radius");
 var projectionView = document.getElementById("projection-view");
 var shaderView = document.getElementById("shader-view");
+var projectionViewVal = 1;
 
 function main() {
   // Get A WebGL context
@@ -128,6 +129,11 @@ function main() {
     document.getElementById("camera-radius-value").innerHTML = e.target.value;
   });
 
+  projectionView.addEventListener("change", function (e) {
+    projectionViewVal = parseInt(e.target.value);
+    drawScene();
+  });
+
   // Draw the scene.
   function drawScene() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
@@ -196,7 +202,16 @@ function main() {
     var top = 0;
     var near = 800;
     var far = -800;
-    var matrix = m4.oblique(left, right, bottom, top, near, far);
+    var matrix;
+
+    if (projectionViewVal == 1) {
+      matrix = m4.oblique(left, right, bottom, top, near, far);
+    } else if (projectionViewVal == 2) {
+      matrix = m4.orthographic(left, right, bottom, top, near, far);
+    } else {
+      // TODO
+      matrix = m4.oblique(left, right, bottom, top, near, far);
+    }
 
     // // Compute the matrices
     // var matrix = m4.projection(
