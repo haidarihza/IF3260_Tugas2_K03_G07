@@ -3,6 +3,7 @@
   margin: 0;
   background-color: #aaa;
   font-family: Sans-Serif;
+  max-width: 100vw;
 }
 
 .container-fluid {
