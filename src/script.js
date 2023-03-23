@@ -214,7 +214,6 @@ function main() {
     matrix = m4.yRotate(matrix, rotation[1]);
     matrix = m4.zRotate(matrix, rotation[2]);
     matrix = m4.scale(matrix, scale[0], scale[1], scale[2]);
-    matrix = m4.rotateCameraX(matrix, degToRad(cameraRotate.value));
 
     // Set the matrix.
     gl.uniformMatrix4fv(matrixLocation, false, matrix);
