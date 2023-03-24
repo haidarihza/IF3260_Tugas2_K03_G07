@@ -18,9 +18,32 @@ var projectionView = document.getElementById("projection-view");
 var shaderView = document.getElementById("shader-view");
 var resetButton = document.getElementById("reset-button");
 var fileInput = document.getElementById("fileinput");
+var saveInput = document.getElementById("saveinput");
 var saveButton = document.getElementById("save-button");
 var selector = document.getElementById("object-option");
 var projectionViewVal = 1;
+
+function changeSlider(obj) {
+	rotateX.value = obj.rotation[0];
+	rotateY.value = obj.rotation[1];
+	rotateZ.value = obj.rotation[2];
+	translationX.value = obj.translation[0];
+	translationY.value = obj.translation[1];
+	translationZ.value = obj.translation[2];
+	scaleX.value = obj.scale[0];
+	scaleY.value = obj.scale[1];
+	scaleZ.value = obj.scale[2];
+
+	document.getElementById("rotate-x-value").innerHTML = obj.rotation[0];
+	document.getElementById("rotate-y-value").innerHTML = obj.rotation[1];
+	document.getElementById("rotate-z-value").innerHTML = obj.rotation[2];
+	document.getElementById("translate-x-value").innerHTML = obj.translation[0];
+	document.getElementById("translate-y-value").innerHTML = obj.translation[1];
+	document.getElementById("translate-z-value").innerHTML = obj.translation[2];
+	document.getElementById("scale-x-value").innerHTML = obj.scale[0];
+	document.getElementById("scale-y-value").innerHTML = obj.scale[1];
+	document.getElementById("scale-z-value").innerHTML = obj.scale[2];
+}
 
 function addEventListeners() {
   console.log("selectedIdx ->", selectedIdx);
@@ -103,7 +126,23 @@ resetButton.addEventListener("click", function (e) {
 });
 
 saveButton.addEventListener("click", function (e) {
-  console.log("Save");
+  let fileName = document.getElementById("saveinput").value;
+
+  if (!fileName) {
+      fileName = "model-" + new Date().getTime();
+  }
+  fileName += ".json";
+
+  const element = document.createElement('a');
+
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(objects)));
+  element.setAttribute('download', fileName);
+  element.style.display = 'none';
+
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+  alert("Model saved successfully!");
 });
 
 // loader
@@ -118,13 +157,8 @@ fileInput.addEventListener("click", function (e) {
       const result = e.target.result;
       const data = JSON.parse(result);
 
-      // push default transformation
-      data.forEach((obj) => {
-        obj.translation = [0, 0, 0];
-        obj.rotation = [degToRad(0), degToRad(0), degToRad(0)];
-        obj.scale = [1, 1, 1];
-      });
       objects.push(...data);
+      changeSlider(objects[0]);
 
       // draw all objects
       drawObject();
@@ -140,4 +174,8 @@ fileInput.addEventListener("click", function (e) {
 selector.addEventListener("change", (e) => {
   selectedIdx = e.target.value;
   console.log("Selected Obj Index : " + selectedIdx);
+  if (objects.length === 0) {
+    return;
+  }
+  changeSlider(objects[selectedIdx]);
 });

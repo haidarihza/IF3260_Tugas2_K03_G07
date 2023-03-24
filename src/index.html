@@ -104,9 +104,18 @@
           </select>
         </div>
         <!-- Load Section -->
-        <div class="row mb-5">
+        <div class="row mb-3">
           <label for="fileInput" class="title-tools">Load File</label>
           <input class="form-control" type="file" id="fileinput">
+        </div>
+        <!-- Save Section -->
+        <div class="row mb-5 gap-2">
+          <label for="saveinput" class="title-tools">Save File</label>
+          <input class="bg-white border-0 rounded color-black py-2" type="text" id="saveinput"
+            placeholder="Model File Name" />
+          <button id="save-button" type="button" class="btn btn-primary">
+            Save
+          </button>
         </div>
         <!-- Buttons -->
         <div class="row gap-5">
@@ -116,11 +125,6 @@
             </button>
             <button id="reset-button" type="button" class="btn btn-secondary">
               Reset
-            </button>
-          </div>
-          <div class="row gap-3">
-            <button id="save-button" type="button" class="btn btn-secondary">
-              Save
             </button>
           </div>
         </div>
