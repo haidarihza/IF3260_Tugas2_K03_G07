@@ -145,7 +145,7 @@ function multiply(a, b) {
     ];
 }
 
-function translation(tx, ty, tz) {
+function translationM(tx, ty, tz) {
 	return [
 		1, 0, 0, 0,
 		0, 1, 0, 0,
@@ -197,7 +197,7 @@ function scaling(sx, sy, sz) {
 }
 
 function translate(m, tx, ty, tz) {
-	return multiply(m, translation(tx, ty, tz));
+	return multiply(m, translationM(tx, ty, tz));
 }
 
 function xRotate(m, angleInRadians) {
@@ -212,7 +212,7 @@ function zRotate(m, angleInRadians) {
 	return multiply(m, zRotation(angleInRadians));
 }
 
-function scale(m, sx, sy, sz) {
+function scaleM(m, sx, sy, sz) {
 	return multiply(m, scaling(sx, sy, sz));
 }
 

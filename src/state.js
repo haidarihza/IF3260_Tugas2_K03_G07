@@ -1,27 +1,6 @@
 'use strict';
 
 
-class HollowObject{
-        /*
-    Constructor
-    @param id: id of the shape
-    @method: the method to use to draw the shape
-    @vertices: the vertices of the shape
-    @rgbColor: the color of the shape
-    @name: the name of the shape
-    */
-
-    constructor(id, vertices, colors){
-        this.id = id;
-        this.vertices = vertices;
-        this.colors = colors;
-    }
-
-    getVertices(){
-        return this.vertices;
-    }
-
-}
 /** 
  * @type {string} 
  * @description Vertex shader source code.
@@ -30,7 +9,6 @@ const vertex = `
     attribute vec3 position;
     attribute vec3 normal;
 
-    uniform mat4 Pmatrix;
     uniform mat4 Vmatrix;
     uniform mat4 Mmatrix;
     uniform mat4 Nmatrix;
@@ -40,7 +18,7 @@ const vertex = `
     varying vec3 vColor;
 
     void main(void) {
-        gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
+        gl_Position = Vmatrix*Mmatrix*vec4(position, 1.);
         vec3 ambientLight = vec3(0.3, 0.3, 0.3);
         vec3 directionalLightColor = vec3(1, 1, 1);
         vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
@@ -93,55 +71,55 @@ var camera = [0, 0]
 rotateX.addEventListener("input", function (e) {
     rotation[0] = degToRad(e.target.value);
     document.getElementById("rotate-x-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 rotateY.addEventListener("input", function (e) {
     rotation[1] = degToRad(e.target.value);
     document.getElementById("rotate-y-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 rotateZ.addEventListener("input", function (e) {
     rotation[2] = degToRad(e.target.value);
     document.getElementById("rotate-z-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 translationX.addEventListener("input", function (e) {
     translation[0] = e.target.value;
     document.getElementById("translate-x-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 translationY.addEventListener("input", function (e) {
     translation[1] = e.target.value;
     document.getElementById("translate-y-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 translationZ.addEventListener("input", function (e) {
     translation[2] = e.target.value;
     document.getElementById("translate-z-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 scaleX.addEventListener("input", function (e) {
     scale[0] = e.target.value;
     document.getElementById("scale-x-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 scaleY.addEventListener("input", function (e) {
     scale[1] = e.target.value;
     document.getElementById("scale-y-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 scaleZ.addEventListener("input", function (e) {
     scale[2] = e.target.value;
     document.getElementById("scale-z-value").innerHTML = e.target.value;
-    drawScene();
+    drawObject();
 });
 
 // TODO: handle camera

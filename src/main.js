@@ -1,4 +1,159 @@
 'use strict';
+let a = 150.0
+let b = 25.0
+let c = a+b
+let d = a+2*b
+let e = b
+let f = (d-b)/2
+let g = f + b
+
+var vertices = [
+  // solid hollow cube
+  // bottom face
+  0, d, 0, b, d, d, b, d, 0, b, d, d, 0, d, 0, 0, d, d,
+  //
+  c, d, 0, d, d, d, d, d, 0, d, d, d, c, d, 0, c, d, d,
+  //
+  b, d, 0, c, d, b, c, d, 0, c, d, b, b, d, 0, b, d, b,
+  //
+  b, d, c, c, d, d, c, d, c, c, d, d, b, d, c, b, d, d,
+  // inside border bottom face
+  b, d, b, b, c, c, b, c, b, b, c, c, b, d, b, b, d, c,
+  //
+  c, d, b, c, c, c, c, d, c, c, c, c, c, d, b, c, c, b, 
+  //
+  b, d, b, c, c, b, c, d, b, c, c, b, b, d, b, b, c, b, 
+  //
+  b, d, c, c, c, c, b, c, c, c, c, c, b, d, c, c, d, c, 
+  // outside border bottom face
+  0, d, 0, 0, c, d, 0, c, 0, 0, c, d, 0, d, 0, 0, d, d,
+  //
+  d, d, 0, d, c, d, d, d, d, d, c, d, d, d, 0, d, c, 0, 
+  //
+  0, d, 0, d, c, 0, d, d, 0, d, c, 0, 0, d, 0, 0, c, 0, 
+  //
+  0, d, d, d, c, d, 0, c, d, d, c, d, 0, d, d, d, d, d, 
+  // top face
+  0, c, 0, b, c, d, b, c, 0, b, c, d, 0, c, 0, 0, c, d,
+  //
+  c, c, 0, d, c, d, d, c, 0, d, c, d, c, c, 0, c, c, d,
+  //
+  b, c, 0, c, c, b, c, c, 0, c, c, b, b, c, 0, b, c, b,
+  //
+  b, c, c, c, c, d, c, c, c, c, c, d, b, c, c, b, c, d,
+  // top pyramid
+  f, e, f, g, e, g, g, e, f, g, e, g, f, e, f, f, e, g,
+  //side 1
+  0, c, 0, f, e, g, f, e, f, f, e, g, 0, c, 0, 0, c, b,
+  b, c, 0, f, e, f, g, e, f, f, e, f, b, c, 0, 0, c, 0,
+  b, c, b, g, e, f, g, e, g, g, e, f, b, c, b, b, c, 0,
+  0, c, b, g, e, g, f, e, g, g, e, g, 0, c, b, b, c, b,
+  //side 2
+  0, c, d, f, e, f, f, e, g, f, e, f, 0, c, d, 0, c, c,
+  b, c, d, f, e, g, g, e, g, f, e, g, b, c, d, 0, c, d,
+  b, c, c, g, e, g, g, e, f, g, e, g, b, c, c, b, c, d,
+  0, c, c, g, e, f, f, e, f, g, e, f, 0, c, c, b, c, c,
+  //side 3
+  d, c, 0, g, e, g, g, e, f, g, e, g, d, c, 0, d, c, b,
+  c, c, 0, g, e, f, f, e, f, g, e, f, c, c, 0, d, c, 0,
+  c, c, b, f, e, f, f, e, g, f, e, f, c, c, b, c, c, 0,
+  d, c, b, f, e, g, g, e, g, f, e, g, d, c, b, c, c, b,
+  //side 4
+  d, c, d, g, e, f, g, e, g, g, e, f, d, c, d, d, c, c,
+  c, c, d, g, e, g, f, e, g, g, e, g, c, c, d, d, c, d,
+  c, c, c, f, e, g, f, e, f, f, e, g, c, c, c, c, c, d,
+  d, c, c, f, e, f, g, e, f, f, e, f, d, c, c, c, c, c,
+];
+
+var colors = [
+  // bottom face
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  // inside border bottom face
+  100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
+  50, 50,
+  //
+  100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
+  50, 50,
+  //
+  100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
+  50, 50,
+  //
+  100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
+  50, 50,
+  // outside border bottom face
+  100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100,
+  50, 99, 
+  //
+  100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100,
+  50, 99, 
+  //
+  100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100,
+  50, 99, 
+  //
+  100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100, 50, 99, 100,
+  50, 99, 
+  // top face
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  //
+  100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100, 220, 50, 100,
+  220, 50,
+  // top pyramid
+  100, 200, 50, 100, 200, 50, 100, 200, 50, 100, 200, 50, 100, 200, 50, 100,
+  200, 50,
+  //side 1
+  233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233,
+  150, 70,
+  200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200,
+  150, 200,
+  150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150,
+  98, 211,
+  111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111,
+  121, 111,
+  //side 2
+  233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233,
+  150, 70,
+  200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200,
+  150, 200,
+  150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150,
+  98, 211,
+  111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111,
+  121, 111,
+  //side 3
+  233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233,
+  150, 70,
+  200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200,
+  150, 200,
+  150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150,
+  98, 211,
+  111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111,
+  121, 111,        
+  //side 4
+  233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233, 150, 70, 233,
+  150, 70,
+  200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200, 150, 200, 200,
+  150, 200,
+  150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150, 98, 211, 150,
+  98, 211,
+  111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111, 121, 111, 111,
+  121, 111, 
+];
 
 var _Pmatrix;
 var _Vmatrix;
@@ -7,25 +162,15 @@ var _Nmatrix;
 
 var normalMatrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
 var proj_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
-var model_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var view_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 
-const drawObject = (object) => {
+const drawObject = () => {  
     // Set the shader program.
-    initBuffers(object.vertices, convertColors(object.colors));
-    gl.uniformMatrix4fv(_Pmatrix, false, proj_matrix);
-    gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
-    gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);
-    gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
-    for (var i = 0; i < object.vertices.length; i++){
-        gl.drawArrays(gl.TRIANGLES, i*3, 3);
-     }
-  
-    // gl.drawArrays(gl.TRIANGLES, 0, object.vertices.length / 3);
+    initBuffers(vertices, convertColors(colors));
+    gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
 }
 
 const initBuffers = (vertices, colors) => {
-    console.log(colors);
     var verticesBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -60,6 +205,17 @@ const initBuffers = (vertices, colors) => {
     gl.enableVertexAttribArray(_normal);
  
     gl.useProgram(program);
+
+    var model_matrix = projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+    model_matrix = translate(model_matrix, translation[0], translation[1], translation[2]);
+    model_matrix = xRotate(model_matrix, rotation[0]);
+    model_matrix = yRotate(model_matrix, rotation[1]);
+    model_matrix = zRotate(model_matrix, rotation[2]);
+    model_matrix = scaleM(model_matrix, scale[0], scale[1], scale[2]);
+
+    gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
+    gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);
+    gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
 
     gl.enable(gl.DEPTH_TEST);
 
@@ -125,7 +281,7 @@ const vertexShader = initShader(gl, gl.VERTEX_SHADER, vertex);
 const fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragment);
 const program = createProgram(gl, vertexShader, fragmentShader);
 
-
+drawObject() ;
 
 //Contoh Untuk Draw Scene
   // // Draw the scene.
