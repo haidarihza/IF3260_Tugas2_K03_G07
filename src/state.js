@@ -62,6 +62,9 @@ var cameraRotate = document.getElementById("camera-rotate");
 var cameraRadius = document.getElementById("camera-radius");
 var projectionView = document.getElementById("projection-view");
 var shaderView = document.getElementById("shader-view");
+var resetButton = document.getElementById("reset-button");
+var loadButton = document.getElementById("load-button");
+var saveButton = document.getElementById("save-button");
 var projectionViewVal = 1;
 var translation = [0, 0, 0];
 var rotation = [degToRad(0), degToRad(0), degToRad(0)];
@@ -135,4 +138,15 @@ projectionView.addEventListener("change", function (e) {
     projectionViewVal = parseInt(e.target.value);
     drawScene();
 });
-    
+
+resetButton.addEventListener("click", function (e) {
+    console.log("Reset");
+})
+
+loadButton.addEventListener("click", function (e) {
+    console.log("Load");
+})
+
+saveButton.addEventListener("click", function (e) {
+    console.log("Save");
+})

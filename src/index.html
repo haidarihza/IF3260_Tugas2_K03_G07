@@ -108,14 +108,24 @@
           <label for="fileInput" class="title-tools">Load File</label>
           <input class="form-control" type="file" id="fileinput" onchange="importData()">
         </div>
-        <!-- Help Button -->
-        <div class="row mb-2 gap-3">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Help
-          </button>
-          <button type="button" class="btn btn-secondary">
-            Reset
-          </button>
+        <!-- Buttons -->
+        <div class="row gap-5">
+          <div class="row gap-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Help
+            </button>
+            <button id="reset-button" type="button" class="btn btn-secondary">
+              Reset
+            </button>
+          </div>
+          <div class="row gap-3">
+            <button id="load-button" type="button" class="btn btn-primary">
+              Load
+            </button>
+            <button id="save-button" type="button" class="btn btn-secondary">
+              Save
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
