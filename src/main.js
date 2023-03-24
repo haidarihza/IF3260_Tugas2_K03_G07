@@ -163,11 +163,16 @@ var _Nmatrix;
 var normalMatrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
 var proj_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var view_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
+var objects = [];
+var selectedIdx = 0;
 
-const drawObject = () => {  
-    // Set the shader program.
+
+const drawObject = () => {
+  for (let i = 0; i < objects.length; i++) {
+    const {vertices, colors} = objects[i];
     initBuffers(vertices, convertColors(colors));
     gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
+  }
 }
 
 const initBuffers = (vertices, colors) => {

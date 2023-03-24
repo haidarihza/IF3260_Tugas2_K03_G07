@@ -1,10 +1,9 @@
-'use strict';
+"use strict";
 
-
-/** 
- * @type {string} 
+/**
+ * @type {string}
  * @description Vertex shader source code.
-*/
+ */
 const vertex = `
     attribute vec3 position;
     attribute vec3 normal;
@@ -30,8 +29,8 @@ const vertex = `
     }
 `;
 
-/** 
- * @type {string} 
+/**
+ * @type {string}
  * @description Fragment shader source code.
  * */
 // Fragment shader program
@@ -48,7 +47,7 @@ const fragment = `
 
 // HTML ELEMENTS.
 /** @type {HTMLCanvasElement} */
-const canvas = document.getElementById('canvas');
+const canvas = document.getElementById("canvas");
 var rotateX = document.getElementById("rotate-x");
 var rotateY = document.getElementById("rotate-y");
 var rotateZ = document.getElementById("rotate-z");
@@ -63,90 +62,115 @@ var cameraRadius = document.getElementById("camera-radius");
 var projectionView = document.getElementById("projection-view");
 var shaderView = document.getElementById("shader-view");
 var resetButton = document.getElementById("reset-button");
-var loadButton = document.getElementById("load-button");
+var fileInput = document.getElementById("fileinput");
 var saveButton = document.getElementById("save-button");
+var selector = document.getElementById("object-option");
 var projectionViewVal = 1;
 var translation = [0, 0, 0];
 var rotation = [degToRad(0), degToRad(0), degToRad(0)];
 var scale = [1, 1, 1];
-var camera = [0, 0]
+var camera = [0, 0];
 
 rotateX.addEventListener("input", function (e) {
-    rotation[0] = degToRad(e.target.value);
-    document.getElementById("rotate-x-value").innerHTML = e.target.value;
-    drawObject();
+  rotation[0] = degToRad(e.target.value);
+  document.getElementById("rotate-x-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 rotateY.addEventListener("input", function (e) {
-    rotation[1] = degToRad(e.target.value);
-    document.getElementById("rotate-y-value").innerHTML = e.target.value;
-    drawObject();
+  rotation[1] = degToRad(e.target.value);
+  document.getElementById("rotate-y-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 rotateZ.addEventListener("input", function (e) {
-    rotation[2] = degToRad(e.target.value);
-    document.getElementById("rotate-z-value").innerHTML = e.target.value;
-    drawObject();
+  rotation[2] = degToRad(e.target.value);
+  document.getElementById("rotate-z-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 translationX.addEventListener("input", function (e) {
-    translation[0] = e.target.value;
-    document.getElementById("translate-x-value").innerHTML = e.target.value;
-    drawObject();
+  translation[0] = e.target.value;
+  document.getElementById("translate-x-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 translationY.addEventListener("input", function (e) {
-    translation[1] = e.target.value;
-    document.getElementById("translate-y-value").innerHTML = e.target.value;
-    drawObject();
+  translation[1] = e.target.value;
+  document.getElementById("translate-y-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 translationZ.addEventListener("input", function (e) {
-    translation[2] = e.target.value;
-    document.getElementById("translate-z-value").innerHTML = e.target.value;
-    drawObject();
+  translation[2] = e.target.value;
+  document.getElementById("translate-z-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 scaleX.addEventListener("input", function (e) {
-    scale[0] = e.target.value;
-    document.getElementById("scale-x-value").innerHTML = e.target.value;
-    drawObject();
+  scale[0] = e.target.value;
+  document.getElementById("scale-x-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 scaleY.addEventListener("input", function (e) {
-    scale[1] = e.target.value;
-    document.getElementById("scale-y-value").innerHTML = e.target.value;
-    drawObject();
+  scale[1] = e.target.value;
+  document.getElementById("scale-y-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 scaleZ.addEventListener("input", function (e) {
-    scale[2] = e.target.value;
-    document.getElementById("scale-z-value").innerHTML = e.target.value;
-    drawObject();
+  scale[2] = e.target.value;
+  document.getElementById("scale-z-value").innerHTML = e.target.value;
+  drawObject();
 });
 
 // TODO: handle camera
 cameraRotate.addEventListener("input", function (e) {
-    document.getElementById("camera-rotate-value").innerHTML = e.target.value;
+  document.getElementById("camera-rotate-value").innerHTML = e.target.value;
 });
 
 cameraRadius.addEventListener("input", function (e) {
-    document.getElementById("camera-radius-value").innerHTML = e.target.value;
+  document.getElementById("camera-radius-value").innerHTML = e.target.value;
 });
 
 projectionView.addEventListener("change", function (e) {
-    projectionViewVal = parseInt(e.target.value);
-    drawScene();
+  projectionViewVal = parseInt(e.target.value);
+  drawScene();
 });
 
 resetButton.addEventListener("click", function (e) {
-    console.log("Reset");
-})
-
-loadButton.addEventListener("click", function (e) {
-    console.log("Load");
-})
+  console.log("Reset");
+});
 
 saveButton.addEventListener("click", function (e) {
-    console.log("Save");
-})
+  console.log("Save");
+});
+
+// loader
+fileInput.addEventListener("click", function (e) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target.result;
+      const data = JSON.parse(result);
+      objects.push(...data);
+      console.log("loading obj :" + objects);
+
+      // draw all objects
+      drawObject();
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+});
+
+// Object selector
+selector.addEventListener("change", (e) => {
+  selectedIdx = e.target.value;
+  console.log("Selected Obj Index : " + selectedIdx);
+});

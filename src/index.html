@@ -22,9 +22,9 @@
         <div class="row mb-2">
           <label for="object" class="title-tools">Object</label>
           <select class="form-select mb-3" id="object-option">
-            <option value="1" selected>Hollow Cube</option>
-            <option value="2">Hollow Pyramid</option>
-            <option value="3">Hollow Prism</option>
+            <option value="0" selected>Hollow Cube</option>
+            <option value="1">Hollow Pyramid</option>
+            <option value="2">Hollow Prism</option>
           </select>
         </div>
         <!-- Rotation Slider -->
@@ -106,7 +106,7 @@
         <!-- Load Section -->
         <div class="row mb-5">
           <label for="fileInput" class="title-tools">Load File</label>
-          <input class="form-control" type="file" id="fileinput" onchange="importData()">
+          <input class="form-control" type="file" id="fileinput">
         </div>
         <!-- Buttons -->
         <div class="row gap-5">
@@ -119,9 +119,6 @@
             </button>
           </div>
           <div class="row gap-3">
-            <button id="load-button" type="button" class="btn btn-primary">
-              Load
-            </button>
             <button id="save-button" type="button" class="btn btn-secondary">
               Save
             </button>
