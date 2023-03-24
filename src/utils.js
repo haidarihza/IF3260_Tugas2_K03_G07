@@ -1,15 +1,15 @@
 function getVectorNormal(vpos) {
 	const n = vpos.length;
 	var vNormals = [];
-	for (let i = 0; i < n; i += 12){
+	for (let i = 0; i < n; i += 18){
 	  const p1 = [vpos[i], vpos[i+1], vpos[i+2]];
-	  const p2 = [vpos[i+3], vpos[i+4], vpos[i+5]];
-	  const p3 = [vpos[i+6], vpos[i+7], vpos[i+8]];
+	  const p2 = [vpos[i+15], vpos[i+16], vpos[i+17]];
+	  const p3 = [vpos[i+3], vpos[i+4], vpos[i+5]];
 	  const vec1 = subtractVectors(p2, p1);
 	  const vec2 = subtractVectors(p3, p1);
 	  const normalDirection = cross(vec1, vec2);
 	  const vecNormal  = normalize(normalDirection);
-	  for (let j = 0; j < 4; j++){
+	  for (let j = 0; j < 6; j++){
 		vNormals = vNormals.concat(vecNormal);
 	  }
 	}

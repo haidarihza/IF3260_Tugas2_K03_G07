@@ -29,7 +29,6 @@ const drawObject = () => {
 
 
 const initBuffers = (vertices, colors, idx) => {
-const initBuffers = (vertices, colors) => {
     gl.enable(gl.DEPTH_TEST);
 
     gl.depthFunc(gl.LEQUAL); 
@@ -261,4 +260,4 @@ drawObject() ;
   //   var offset = 0;
   //   var count = 48 * 6;
   //   gl.drawArrays(primitiveType, offset, count);
-  // }
+  // 
