@@ -70,6 +70,7 @@ var translation = [0, 0, 0];
 var rotation = [degToRad(0), degToRad(0), degToRad(0)];
 var scale = [1, 1, 1];
 var camera = [0, 0]
+var isShading = false;
 
 rotateX.addEventListener("input", function (e) {
     rotation[0] = degToRad(e.target.value);
@@ -149,4 +150,10 @@ loadButton.addEventListener("click", function (e) {
 
 saveButton.addEventListener("click", function (e) {
     console.log("Save");
+})
+
+shaderView.addEventListener("change", function (e) {
+    console.log(e.target.value);
+    isShading = parseInt(e.target.value);
+    drawObject();
 })

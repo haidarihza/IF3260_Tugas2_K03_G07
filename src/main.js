@@ -81,7 +81,7 @@ var colors = [
   // inside border bottom face
   100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
   50, 50,
-  //
+    //
   100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100, 50, 50, 100,
   50, 50,
   //
@@ -160,7 +160,7 @@ var _Vmatrix;
 var _Mmatrix;
 var _Nmatrix;
 
-var normalMatrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+var normalMatrix = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
 var proj_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var view_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 
@@ -171,6 +171,13 @@ const drawObject = () => {
 }
 
 const initBuffers = (vertices, colors) => {
+    gl.enable(gl.DEPTH_TEST);
+
+    gl.depthFunc(gl.LEQUAL); 
+    gl.clearColor(0, 0, 0, 0);
+    gl.clearDepth(1.0);
+    gl.viewport(0.0, 0.0, canvas.width, canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     var verticesBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -181,7 +188,8 @@ const initBuffers = (vertices, colors) => {
 
     var normalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(getVectorNormal(vertices)), gl.STATIC_DRAW);
+    var normalV = getVectorNormal(vertices);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalV), gl.STATIC_DRAW);
 
         /*======== Associating attributes to vertex shader =====*/
     _Pmatrix = gl.getUniformLocation(program, "Pmatrix");
@@ -206,7 +214,7 @@ const initBuffers = (vertices, colors) => {
  
     gl.useProgram(program);
 
-    var model_matrix = projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+    var model_matrix = projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 1000);
     model_matrix = translate(model_matrix, translation[0], translation[1], translation[2]);
     model_matrix = xRotate(model_matrix, rotation[0]);
     model_matrix = yRotate(model_matrix, rotation[1]);
@@ -215,11 +223,15 @@ const initBuffers = (vertices, colors) => {
 
     gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
     gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);
-    gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
+    if (isShading){
+      //
+      normalMatrix = getVectorNormal2(model_matrix, view_matrix);
+      gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
+    }else{
+      normalMatrix = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+      gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
+    }
 
-    gl.enable(gl.DEPTH_TEST);
-
-    gl.depthFunc(gl.LEQUAL); 
 }
 
 

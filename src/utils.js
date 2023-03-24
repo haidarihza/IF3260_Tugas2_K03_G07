@@ -216,4 +216,82 @@ function scaleM(m, sx, sy, sz) {
 	return multiply(m, scaling(sx, sy, sz));
 }
 
+function getVectorNormal2(modelMatrix, viewMatrix) {
+	var temp = multiply(modelMatrix, viewMatrix);
+    var mvMatrix = [];
+    var normalMatrix = [];
 
+    for (var i = 0; i<16; i+=4){
+        mvMatrix.push([temp[i], temp[i+1], temp[i+2], temp[i+3]]);
+    }
+
+    normalMatrix = invert(mvMatrix);
+    normalMatrix = transpose(normalMatrix);
+    var normalVector = [];
+    for (var i = 0; i<4; i++){
+        for (var j = 0; j<4; j++){
+            normalVector.push(normalMatrix[i][j]);
+        }
+    }
+	return normalVector;
+}
+
+function invert(a){
+    var temp;
+    var N = a.length;
+    var E = [];
+   
+    for (var i = 0; i < N; i++)
+      E[i] = [];
+   
+    for (i = 0; i < N; i++)
+      for (var j = 0; j < N; j++) {
+        E[i][j] = 0;
+        if (i == j)
+          E[i][j] = 1;
+      }
+   
+    for (var k = 0; k < N; k++) {
+      temp = a[k][k];
+   
+      for (var j = 0; j < N; j++)
+      {
+        a[k][j] /= temp;
+        a[k][j] /= temp;
+      }
+   
+      for (var i = k + 1; i < N; i++)
+      {
+        temp = a[i][k];
+   
+        for (var j = 0; j < N; j++)
+        {
+          a[i][j] -= a[k][j] * temp;
+          E[i][j] -= E[k][j] * temp;
+        }
+      }
+    }
+   
+    for (var k = N - 1; k > 0; k--)
+    {
+      for (var i = k - 1; i >= 0; i--)
+      {
+        temp = a[i][k];
+   
+        for (var j = 0; j < N; j++)
+        {
+          a[i][j] -= a[k][j] * temp;
+          E[i][j] -= E[k][j] * temp;
+        }
+      }
+    }
+   
+    for (var i = 0; i < N; i++)
+      for (var j = 0; j < N; j++)
+        a[i][j] = E[i][j];
+    return a;
+}
+
+function transpose(matrix) {
+    return matrix[0].map((col, i) => matrix.map(row => row[i]));
+}
