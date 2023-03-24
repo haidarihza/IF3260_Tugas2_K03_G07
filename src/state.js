@@ -1,7 +1,7 @@
 'use strict';
 
 
-class Object{
+class HollowObject{
         /*
     Constructor
     @param id: id of the shape

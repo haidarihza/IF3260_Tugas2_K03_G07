@@ -12,7 +12,7 @@ let e = b
 let f = (d-b)/2
 let g = f + b
 
-let obj = new Object(1,[
+let obj = new HollowObject(1,[
     // solid hollow cube
     // bottom face
     0, d, 0, b, d, d, b, d, 0, b, d, d, 0, d, 0, 0, d, d,
