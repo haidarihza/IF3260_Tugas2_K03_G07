@@ -71,3 +71,90 @@ const fragment = `
 // HTML ELEMENTS.
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById('canvas');
+var rotateX = document.getElementById("rotate-x");
+var rotateY = document.getElementById("rotate-y");
+var rotateZ = document.getElementById("rotate-z");
+var translationX = document.getElementById("translate-x");
+var translationY = document.getElementById("translate-y");
+var translationZ = document.getElementById("translate-z");
+var scaleX = document.getElementById("scale-x");
+var scaleY = document.getElementById("scale-y");
+var scaleZ = document.getElementById("scale-z");
+var cameraRotate = document.getElementById("camera-rotate");
+var cameraRadius = document.getElementById("camera-radius");
+var projectionView = document.getElementById("projection-view");
+var shaderView = document.getElementById("shader-view");
+var projectionViewVal = 1;
+var translation = [0, 0, 0];
+var rotation = [degToRad(0), degToRad(0), degToRad(0)];
+var scale = [1, 1, 1];
+var camera = [0, 0]
+
+rotateX.addEventListener("input", function (e) {
+    rotation[0] = degToRad(e.target.value);
+    document.getElementById("rotate-x-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+rotateY.addEventListener("input", function (e) {
+    rotation[1] = degToRad(e.target.value);
+    document.getElementById("rotate-y-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+rotateZ.addEventListener("input", function (e) {
+    rotation[2] = degToRad(e.target.value);
+    document.getElementById("rotate-z-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+translationX.addEventListener("input", function (e) {
+    translation[0] = e.target.value;
+    document.getElementById("translate-x-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+translationY.addEventListener("input", function (e) {
+    translation[1] = e.target.value;
+    document.getElementById("translate-y-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+translationZ.addEventListener("input", function (e) {
+    translation[2] = e.target.value;
+    document.getElementById("translate-z-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+scaleX.addEventListener("input", function (e) {
+    scale[0] = e.target.value;
+    document.getElementById("scale-x-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+scaleY.addEventListener("input", function (e) {
+    scale[1] = e.target.value;
+    document.getElementById("scale-y-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+scaleZ.addEventListener("input", function (e) {
+    scale[2] = e.target.value;
+    document.getElementById("scale-z-value").innerHTML = e.target.value;
+    drawScene();
+});
+
+// TODO: handle camera
+cameraRotate.addEventListener("input", function (e) {
+    document.getElementById("camera-rotate-value").innerHTML = e.target.value;
+});
+
+cameraRadius.addEventListener("input", function (e) {
+    document.getElementById("camera-radius-value").innerHTML = e.target.value;
+});
+
+projectionView.addEventListener("change", function (e) {
+    projectionViewVal = parseInt(e.target.value);
+    drawScene();
+});
+    

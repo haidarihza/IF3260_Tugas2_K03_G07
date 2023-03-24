@@ -1,4 +1,4 @@
-// Fill the buffer with the values that define a letter 'F'.
+// Fill the buffer with the values that define 150.0 letter 'F'.
 function setGeometry(gl) {
   // buffer data for HOLLOW CUBE
   let a = 150.0
