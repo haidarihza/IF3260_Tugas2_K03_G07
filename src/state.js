@@ -56,9 +56,6 @@ function changeSlider(obj, isReset=false) {
 rotateX.addEventListener("input", function (e) {
   objects[selectedIdx].rotation[0] = degToRad(e.target.value);
   document.getElementById("rotate-x-value").innerHTML = e.target.value;
-  for (var i = 0; i < objects.length; i++) {
-    console.log("idx", i, "rotation", objects[i].rotation);
-  }
   drawObject();
 });
 
@@ -130,15 +127,13 @@ projectionView.addEventListener("change", function (e) {
   const top = 0;
   const near = 800;
   const far = -800;
-
-  if (projectionViewVal === 1) {
+  if (projectionViewVal == 1) {
     proj_matrix = orthographic(left, right, bottom, top, near, far);
-  } else if (projectionViewVal === 2) {
+  } else if (projectionViewVal == 2) {
     proj_matrix = oblique(left, right, bottom, top, near, far);
   } else {
-    proj_matrix = normalMtx;
+    proj_matrix = perspective(degToRad(45), canvas.width/canvas.height, 0.1, 100);
   }
-  console.log(proj_matrix);
   drawObject();
 });
 
@@ -182,26 +177,22 @@ saveButton.addEventListener("click", function (e) {
 });
 
 // loader
-fileInput.addEventListener("click", function (e) {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
-  input.onchange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target.result;
-      const data = JSON.parse(result);
+fileInput.addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const result = e.target.result;
+    const data = JSON.parse(result);
 
-      objects.push(...data);
-      changeSlider(objects[0]);
+    objects.push(...data);
+    changeSlider(objects[0]);
 
-      // draw all objects
-      drawObject();
-    };
-    reader.readAsText(file);
+    // draw all objects
+    drawObject();
+    document.getElementById("fileinput").value = "";
+    // alert("Model loaded successfully!");
   };
-  input.click();
+  reader.readAsText(file);
 });
 
 // Object selector
@@ -212,4 +203,5 @@ selector.addEventListener("change", (e) => {
     return;
   }
   changeSlider(objects[selectedIdx]);
+  updateRotate(objects[selectedIdx].vertices, objects[selectedIdx].rotation);
 });

@@ -92,6 +92,18 @@ function orthographic(left, right, bottom, top, near, far) {
 	];
 }
 
+function perspective(fovy, aspect, near, far) {
+	const f = Math.tan(Math.PI * 0.5 - 0.5 * fovy);
+	const rangeInv = 1.0 / (near - far);
+
+	return [
+		f / aspect, 0, 0, 0,
+		0, f, 0, 0,
+		0, 0, (near + far) * rangeInv, -1,
+		0, 0, near * far * rangeInv * 2, 0
+	];
+}
+
 function multiply(a, b) {
 	var a00 = a[0 * 4 + 0];
     var a01 = a[0 * 4 + 1];
