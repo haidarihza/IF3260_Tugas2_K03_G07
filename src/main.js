@@ -17,7 +17,7 @@ var proj_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var view_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var objects = [];
 var selectedIdx = 0;
-
+var isShading = false;
 
 const drawObject = () => {
   for (let i = 0; i < objects.length; i++) {
@@ -26,7 +26,6 @@ const drawObject = () => {
     gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
   }
 }
-
 
 const initBuffers = (vertices, colors, idx) => {
     gl.enable(gl.DEPTH_TEST);
@@ -80,7 +79,7 @@ const initBuffers = (vertices, colors, idx) => {
     model_matrix = zRotate(model_matrix, rotation[2]);
     model_matrix = scaleM(model_matrix, scale[0], scale[1], scale[2]);
     
-
+    gl.uniformMatrix4fv(_Pmatrix, false, proj_matrix);
     gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
     gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);
     if (isShading){
