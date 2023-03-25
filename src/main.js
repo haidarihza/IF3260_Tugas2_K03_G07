@@ -1,11 +1,4 @@
 'use strict';
-let a = 150.0
-let b = 25.0
-let c = a+b
-let d = a+2*b
-let e = b
-let f = (d-b)/2
-let g = f + b
 
 var _Pmatrix;
 var _Vmatrix;
@@ -66,15 +59,30 @@ const initBuffers = (vertices, colors, idx) => {
     gl.enableVertexAttribArray(_normal);
  
     gl.useProgram(program);
-    
+
     var { translation, rotation, scale } = objects[idx];
-    var model_matrix = projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 800);
+    var left = 0;
+    var right = gl.canvas.clientWidth;
+    var bottom = gl.canvas.clientHeight;
+    var top = 0;
+    var near = 800;
+    var far = -800;
+    var model_matrix;
+
+    if (projectionViewVal == 1) {
+      model_matrix = oblique(left, right, bottom, top, near, far);
+    } else if (projectionViewVal == 2) {
+      model_matrix = orthographic(left, right, bottom, top, near, far);
+    } else {
+      model_matrix = perspective(degToRad(45), canvas.width / canvas.height, 0.1, 100);
+    }
+    
     model_matrix = translate(model_matrix, translation[0], translation[1], translation[2]);
     model_matrix = xRotate(model_matrix, rotation[0]);
     model_matrix = yRotate(model_matrix, rotation[1]);
     model_matrix = zRotate(model_matrix, rotation[2]);
     model_matrix = scaleM(model_matrix, scale[0], scale[1], scale[2]);
-    
+
     gl.uniformMatrix4fv(_Pmatrix, false, proj_matrix);
     gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
     gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);
@@ -149,111 +157,4 @@ const vertexShader = initShader(gl, gl.VERTEX_SHADER, vertex);
 const fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragment);
 const program = createProgram(gl, vertexShader, fragmentShader);
 
-drawObject() ;
-
-//Contoh Untuk Draw Scene
-  // // Draw the scene.
-  // function drawScene() {
-  //   webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-
-  //   // Tell WebGL how to convert from clip space to pixels
-  //   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-  //   gl.enable(gl.DEPTH_TEST);
-
-  //   // Clear the canvas.
-  //   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-  //   // Turn on culling. By default backfacing triangles
-  //   // will be culled.
-  //   // gl.enable(gl.CULL_FACE);
-
-  //   // Tell it to use our program (pair of shaders)
-  //   gl.useProgram(program);
-
-  //   // Turn on the position attribute
-  //   gl.enableVertexAttribArray(positionLocation);
-
-  //   // Bind the position buffer.
-  //   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  //   // Tell the position attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-  //   var size = 3; // 3 components per iteration
-  //   var type = gl.FLOAT; // the data is 32bit floats
-  //   var normalize = false; // don't normalize the data
-  //   var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-  //   var offset = 0; // start at the beginning of the buffer
-  //   gl.vertexAttribPointer(
-  //     positionLocation,
-  //     size,
-  //     type,
-  //     normalize,
-  //     stride,
-  //     offset
-  //   );
-
-  //   // Turn on the color attribute
-  //   gl.enableVertexAttribArray(colorLocation);
-
-  //   // Bind the color buffer.
-  //   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-  //   // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
-  //   var size = 3; // 3 components per iteration
-  //   var type = gl.UNSIGNED_BYTE; // the data is 8bit unsigned values
-  //   var normalize = true; // normalize the data (convert from 0-255 to 0-1)
-  //   var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-  //   var offset = 0; // start at the beginning of the buffer
-  //   gl.vertexAttribPointer(
-  //     colorLocation,
-  //     size,
-  //     type,
-  //     normalize,
-  //     stride,
-  //     offset
-  //   );
-
-  //   // ortographic projection
-  //   var left = 0;
-  //   var right = gl.canvas.clientWidth;
-  //   var bottom = gl.canvas.clientHeight;
-  //   var top = 0;
-  //   var near = 800;
-  //   var far = -800;
-  //   var matrix;
-
-  //   if (projectionViewVal == 1) {
-  //     matrix = m4.oblique(left, right, bottom, top, near, far);
-  //   } else if (projectionViewVal == 2) {
-  //     matrix = m4.orthographic(left, right, bottom, top, near, far);
-  //   } else {
-  //     // TODO
-  //     matrix = m4.oblique(left, right, bottom, top, near, far);
-  //   }
-
-  //   // // Compute the matrices
-  //   // var matrix = m4.projection(
-  //   //   gl.canvas.clientWidth,
-  //   //   gl.canvas.clientHeight,
-  //   //   800
-  //   // );
-  //   matrix = m4.translate(
-  //     matrix,
-  //     translation[0],
-  //     translation[1],
-  //     translation[2]
-  //   );
-  //   matrix = m4.xRotate(matrix, rotation[0]);
-  //   matrix = m4.yRotate(matrix, rotation[1]);
-  //   matrix = m4.zRotate(matrix, rotation[2]);
-  //   matrix = m4.scale(matrix, scale[0], scale[1], scale[2]);
-
-  //   // Set the matrix.
-  //   gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-  //   // Draw the geometry.
-  //   var primitiveType = gl.TRIANGLES;
-  //   var offset = 0;
-  //   var count = 48 * 6;
-  //   gl.drawArrays(primitiveType, offset, count);
-  // 
+drawObject();

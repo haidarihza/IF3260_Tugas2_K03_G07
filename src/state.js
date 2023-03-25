@@ -109,31 +109,19 @@ scaleZ.addEventListener("input", function (e) {
 
 cameraRotate.addEventListener("input", function (e) {
   document.getElementById("camera-rotate-value").innerHTML = e.target.value;
+  cameraRotateVal = degToRad(parseInt(e.target.value));
 });
 
 cameraRadius.addEventListener("input", function (e) {
-  const val = e.target.value;
-  const matrix = [val, 0, 0, 0, 0, val, 0, 0, 0, 0, val, 0, 0, 0, 0, 1];
-  view_matrix = multiply(matrix, normalMtx);
   document.getElementById("camera-radius-value").innerHTML = e.target.value;
-  drawObject();
+  cameraRadiusVal = parseInt(e.target.value);
+  // const matrix = [val, 0, 0, 0, 0, val, 0, 0, 0, 0, val, 0, 0, 0, 0, 1];
+  // view_matrix = multiply(matrix, normalMtx);
+  // drawObject();
 });
 
 projectionView.addEventListener("change", function (e) {
   projectionViewVal = parseInt(e.target.value);
-  const left = 0;
-  const right = gl.canvas.clientWidth;
-  const bottom = gl.canvas.clientHeight;
-  const top = 0;
-  const near = 800;
-  const far = -800;
-  if (projectionViewVal == 1) {
-    proj_matrix = orthographic(left, right, bottom, top, near, far);
-  } else if (projectionViewVal == 2) {
-    proj_matrix = oblique(left, right, bottom, top, near, far);
-  } else {
-    proj_matrix = perspective(degToRad(45), canvas.width/canvas.height, 0.1, 100);
-  }
   drawObject();
 });
 
