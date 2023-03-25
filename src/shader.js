@@ -21,7 +21,7 @@ const vertex = `
     void main(void) {
         gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
         vec3 ambientLight = normalize(vec3(0.3, 0.3, 0.3));
-        vec3 directionalLightColor = normalize(vec3(0.3, 0.3, 0.3));
+        vec3 directionalLightColor = normalize(vec3(1, 1, 1));
         vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
         vec4 transformedNormal = normalize(Nmatrix*vec4(normal, 1.));
         
