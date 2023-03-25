@@ -47,10 +47,8 @@ function changeSlider(obj, isReset = false) {
   document.getElementById("scale-z-value").innerHTML = obj.scale[2];
 
   if (isReset) {
-    cameraRotate.value = 0;
-    cameraRadius.value = 1;
+    cameraAngleRadians = 0;
     document.getElementById("camera-rotate-value").innerHTML = 0;
-    document.getElementById("camera-radius-value").innerHTML = 1;
   }
 }
 
@@ -73,19 +71,19 @@ rotateZ.addEventListener("input", function (e) {
 });
 
 translationX.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[0] = e.target.value;
+  objects[selectedIdx].translation[0] = e.target.value / (gl.canvas.clientWidth);
   document.getElementById("translate-x-value").innerHTML = e.target.value;
   drawObject();
 });
 
 translationY.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[1] = e.target.value;
+  objects[selectedIdx].translation[1] = e.target.value / (gl.canvas.clientHeight);
   document.getElementById("translate-y-value").innerHTML = e.target.value;
   drawObject();
 });
 
 translationZ.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[2] = e.target.value;
+  objects[selectedIdx].translation[2] = e.target.value / (gl.canvas.clientWidth);
   document.getElementById("translate-z-value").innerHTML = e.target.value;
   drawObject();
 });
