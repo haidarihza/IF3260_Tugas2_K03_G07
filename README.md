@@ -10,7 +10,25 @@ cd IF3260_Tugas2_K03_G07
 - Jalankan file index.html yang berada pada folder `src`
 - Program berhasil dijalankan!
 
-> *NOTE: Jika mengalami kesulitan dalam program, terdapat button `Help` untuk menolong anda*
+## How to Use
+#### `Proyeksi`
+Terdapat 3 opsi proyeksi yang bisa dipilih, yaitu Orthographic, Oblique, dan juga Perspective. Untuk
+memilihnya
+bisa dilakukan dengan mengklik tombol dropdown yang ada di sebelah kanan
+#### `Transformasi`
+Transformasi yang bisa dilakukan adalah rotate, translate, dan scale. Transformasi
+bisa dilakukan dengan menggeser masing-masing slider yang ada. Efek dari slider-slider ini akan
+bergantung pada objek yang dipilih. Slider juga akan berpengaruh sesuai dengan axis yang diubah
+#### `Kamera`
+Kamera yang digunakan adalah kamera 3D. Kamera ini bisa diubah dengan menggeser slider yang ada dan
+menekan tombol In atau Out.
+Slider yang ada adalah slider untuk mengatur rotasi kamera dan tombol In atau Out mengatur radius
+kamera. Rotate akan mengubah sudut pandang kamera
+sedangkan radius akan mengubah jarak kamera dengan objek yang ditampilkan
+#### `Reset`
+Dengan mengklik tombol reset, semua transformasi ataupun perubahan-perubahan yang telah dilakukan akan
+kembali ke posisi awal
+> *NOTE: Jika mengalami kesulitan dalam program, terdapat button `Help` untuk menolong Anda*
 
 ## Author
 K3 - Kelompok 7

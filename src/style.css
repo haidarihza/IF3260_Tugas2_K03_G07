@@ -36,3 +36,8 @@ canvas {
 .modal-content {
   box-shadow: 4px 7px black;
 }
+
+.btn-primary {
+  width: 60px;
+  text-align: center;
+}
