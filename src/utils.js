@@ -147,11 +147,37 @@ function perspective(fovy, aspect, near, far) {
   const rangeInv = 1.0 / (near - far);
 
   return [
-    f / aspect, 0, 0, 0,
-    0, f, 0, 0,
-    0, 0, (near + far) * rangeInv, -1,
-    0, 0, 2 * near * far * rangeInv, 0
+    f / aspect,
+    0,
+    0,
+    0,
+    0,
+    f,
+    0,
+    0,
+    0,
+    0,
+    (near + far) * rangeInv,
+    -1,
+    0,
+    0,
+    2 * near * far * rangeInv,
+    0,
   ];
+}
+
+function transformVertices(vertices, matrix) {
+  const transformedVertices = [];
+  for (let i = 0; i < vertices.length; i += 3) {
+    const vec4 = [vertices[i], vertices[i + 1], vertices[i + 2], 1];
+    const transformedVec4 = multiply(matrix, vec4);
+    transformedVertices.push(
+      transformedVec4[0],
+      transformedVec4[1],
+      transformedVec4[2]
+    );
+  }
+  return transformedVertices;
 }
 
 function multiply(a, b) {

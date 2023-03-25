@@ -88,6 +88,11 @@ const initBuffers = (vertices, colors, idx) => {
     model_matrix = yRotate(model_matrix, rotation[1]);
     model_matrix = zRotate(model_matrix, rotation[2]);
     model_matrix = scaleM(model_matrix, scale[0], scale[1], scale[2]);
+
+    // push model_matrix to objects
+    objects[idx].model_matrix = model_matrix;
+
+  
     gl.uniformMatrix4fv(_Pmatrix, false, proj_matrix);
     gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
     gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);

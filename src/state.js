@@ -26,19 +26,31 @@ function changeSlider(obj, isReset = false) {
   rotateX.value = radToDeg(obj.rotation[0]);
   rotateY.value = radToDeg(obj.rotation[1]);
   rotateZ.value = radToDeg(obj.rotation[2]);
-  translationX.value = obj.translation[0]*gl.canvas.clientWidth;
-  translationY.value = obj.translation[1]*gl.canvas.clientHeight;
-  translationZ.value = obj.translation[2]*gl.canvas.clientWidth;
+  translationX.value = obj.translation[0] * gl.canvas.clientWidth;
+  translationY.value = obj.translation[1] * gl.canvas.clientHeight;
+  translationZ.value = obj.translation[2] * gl.canvas.clientWidth;
   scaleX.value = obj.scale[0];
   scaleY.value = obj.scale[1];
   scaleZ.value = obj.scale[2];
 
-  document.getElementById("rotate-x-value").innerHTML = Math.round(radToDeg(obj.rotation[0]));
-  document.getElementById("rotate-y-value").innerHTML = Math.round(radToDeg(obj.rotation[1]));
-  document.getElementById("rotate-z-value").innerHTML = Math.round(radToDeg(obj.rotation[2]));
-  document.getElementById("translate-x-value").innerHTML = Math.round(obj.translation[0]*gl.canvas.clientWidth);
-  document.getElementById("translate-y-value").innerHTML = Math.round(obj.translation[1]*gl.canvas.clientHeight);
-  document.getElementById("translate-z-value").innerHTML = Math.round(obj.translation[2]*gl.canvas.clientWidth);
+  document.getElementById("rotate-x-value").innerHTML = Math.round(
+    radToDeg(obj.rotation[0])
+  );
+  document.getElementById("rotate-y-value").innerHTML = Math.round(
+    radToDeg(obj.rotation[1])
+  );
+  document.getElementById("rotate-z-value").innerHTML = Math.round(
+    radToDeg(obj.rotation[2])
+  );
+  document.getElementById("translate-x-value").innerHTML = Math.round(
+    obj.translation[0] * gl.canvas.clientWidth
+  );
+  document.getElementById("translate-y-value").innerHTML = Math.round(
+    obj.translation[1] * gl.canvas.clientHeight
+  );
+  document.getElementById("translate-z-value").innerHTML = Math.round(
+    obj.translation[2] * gl.canvas.clientWidth
+  );
   document.getElementById("scale-x-value").innerHTML = obj.scale[0];
   document.getElementById("scale-y-value").innerHTML = obj.scale[1];
   document.getElementById("scale-z-value").innerHTML = obj.scale[2];
@@ -47,7 +59,7 @@ function changeSlider(obj, isReset = false) {
     isShading = false;
     cameraAngleRadians = 0;
     oldValue = 0;
-    
+
     document.getElementById("shader-view").value = 0;
     document.getElementById("camera-rotate").value = 0;
     document.getElementById("camera-rotate-value").innerHTML = 0;
@@ -73,19 +85,19 @@ rotateZ.addEventListener("input", function (e) {
 });
 
 translationX.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[0] = e.target.value / (gl.canvas.clientWidth);
+  objects[selectedIdx].translation[0] = e.target.value / gl.canvas.clientWidth;
   document.getElementById("translate-x-value").innerHTML = e.target.value;
   drawObject();
 });
 
 translationY.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[1] = e.target.value / (gl.canvas.clientHeight);
+  objects[selectedIdx].translation[1] = e.target.value / gl.canvas.clientHeight;
   document.getElementById("translate-y-value").innerHTML = e.target.value;
   drawObject();
 });
 
 translationZ.addEventListener("input", function (e) {
-  objects[selectedIdx].translation[2] = e.target.value / (gl.canvas.clientWidth);
+  objects[selectedIdx].translation[2] = e.target.value / gl.canvas.clientWidth;
   document.getElementById("translate-z-value").innerHTML = e.target.value;
   drawObject();
 });
@@ -156,6 +168,14 @@ saveButton.addEventListener("click", function (e) {
     return;
   }
 
+  // compute the new vertices
+  for (var i = 0; i < objects.length; i++) {
+    objects[i].vertices = transformVertices(
+      objects[i].vertices,
+      objects[i].model_matrix
+    );
+  }
+
   let fileName = document.getElementById("saveinput").value;
 
   if (!fileName) {
@@ -164,11 +184,16 @@ saveButton.addEventListener("click", function (e) {
   fileName += ".json";
 
   const element = document.createElement("a");
+  const data = objects.map((obj) => {
+    return {
+      vertices: obj.vertices,
+      colors: obj.colors,
+    };
+  });
 
   element.setAttribute(
     "href",
-    "data:text/plain;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(objects))
+    "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(data))
   );
   element.setAttribute("download", fileName);
   element.style.display = "none";
@@ -199,8 +224,14 @@ fileInput.addEventListener("change", function (e) {
       if (i === 0) {
         opt.selected = true;
       }
+
+      // push default translation
+      data[i].translation = [0, 0, 0];
+      data[i].rotation = [0, 0, 0];
+      data[i].scale = [1, 1, 1];
+
       optDiv.appendChild(opt);
-      objects.push(data[i])
+      objects.push(data[i]);
     }
     changeSlider(objects[0], true);
 
