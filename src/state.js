@@ -21,9 +21,6 @@ var fileInput = document.getElementById("fileinput");
 var saveInput = document.getElementById("saveinput");
 var saveButton = document.getElementById("save-button");
 var selector = document.getElementById("object-option");
-var projectionViewVal = 1;
-var oldValue = 0;
-const normalMtx = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
 function changeSlider(obj, isReset = false) {
   rotateX.value = obj.rotation[0];
@@ -47,9 +44,13 @@ function changeSlider(obj, isReset = false) {
   document.getElementById("scale-z-value").innerHTML = obj.scale[2];
 
   if (isReset) {
-    cameraAngleRadians = 0;
-    document.getElementById("camera-rotate-value").innerHTML = 0;
     isShading = false;
+    cameraAngleRadians = 0;
+    oldValue = 0;
+    
+    document.getElementById("shader-view").value = 0;
+    document.getElementById("camera-rotate").value = 0;
+    document.getElementById("camera-rotate-value").innerHTML = 0;
   }
 }
 
@@ -187,8 +188,21 @@ fileInput.addEventListener("change", function (e) {
     const result = e.target.result;
     const data = JSON.parse(result);
 
-    objects.push(...data);
-    changeSlider(objects[0]);
+    objects = [];
+
+    const optDiv = document.getElementById("object-option");
+    optDiv.options[0].remove();
+    for (var i = 0; i < data.length; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.innerHTML = "Hollow Object " + (i + 1);
+      if (i === 0) {
+        opt.selected = true;
+      }
+      optDiv.appendChild(opt);
+      objects.push(data[i])
+    }
+    changeSlider(objects[0], true);
 
     // draw all objects
     drawObject();
