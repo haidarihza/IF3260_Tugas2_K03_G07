@@ -205,3 +205,9 @@ selector.addEventListener("change", (e) => {
   changeSlider(objects[selectedIdx]);
   updateRotate(objects[selectedIdx].vertices, objects[selectedIdx].rotation);
 });
+
+//Shader view
+shaderView.addEventListener("change", (e) => {
+    isShading = parseInt(e.target.value);
+    drawObject();
+});

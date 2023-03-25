@@ -31,10 +31,6 @@ const initBuffers = (vertices, colors, idx) => {
     gl.enable(gl.DEPTH_TEST);
 
     gl.depthFunc(gl.LEQUAL); 
-    gl.clearColor(0, 0, 0, 0);
-    gl.clearDepth(1.0);
-    gl.viewport(0.0, 0.0, canvas.width, canvas.height);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     var verticesBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -90,6 +86,7 @@ const initBuffers = (vertices, colors, idx) => {
       normalMatrix = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
       gl.uniformMatrix4fv(_Nmatrix, false, normalMatrix);
     }
+    console.log(normalMatrix);
 
 }
 
