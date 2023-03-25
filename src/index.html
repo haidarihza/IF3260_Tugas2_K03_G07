@@ -15,7 +15,7 @@
   <div id="container" class="container-fluid">
     <div class="row">
       <div class="col-auto me-5">
-        <canvas id="canvas" width="700px" height="600px"></canvas>
+        <canvas id="canvas" width="600px" height="600px"></canvas>
       </div>
       <div class="col-2 me-5">
         <!-- Object Selection -->
@@ -48,7 +48,7 @@
           <div class="slider-container">
             <label for="translate-x" class="form-label">Translate-x</label>
             <p id="translate-x-value" class="d-inline value-input">0</p>
-            <input id="translate-x" type="range" min="-700" max="700" value="0" step="1" class="form-range">
+            <input id="translate-x" type="range" min="-600" max="600" value="0" step="1" class="form-range">
             <label for="translate-y" class="form-label">Translate-y</label>
             <p id="translate-y-value" class="d-inline value-input">0</p>
             <input id="translate-y" type="range" min="-600" max="600" value="0" step="1" class="form-range">
@@ -75,21 +75,16 @@
       </div>
       <div class="col-2">
         <!-- Camera Slider -->
-        <div class="row">
+        <div class="row mb-2">
           <div class="title-tools"> Camera</div>
           <div class="slider-container">
             <label for="rotate" class="form-label">Rotate</label>
             <p id="camera-rotate-value" class="d-inline value-input">0</p>
             <input id="camera-rotate" type="range" min="-360" max="360" value="0" step="1" class="form-range">
             <div class="col gap-3">
-            <button id="button-zoom" class="btn btn-primary" onmousedown="updateZoom(1.1)">In</button>
-            <button id="button-zoom" class="btn btn-primary" onmousedown="updateZoom(0.9)">Out</button>
+              <button id="button-zoom" class="btn btn-primary" onmousedown="updateZoom(1.1)">In</button>
+              <button id="button-zoom" class="btn btn-primary" onmousedown="updateZoom(0.9)">Out</button>
             </div>
-
-
-            <label for="radius" class="form-label">Radius</label>
-            <p id="camera-radius-value" class="d-inline value-input">1</p>
-            <input id="camera-radius" type="range" min="0" max="2" value="1" step="0.1" class="form-range">
           </div>
         </div>
         <!-- Projection Selection -->

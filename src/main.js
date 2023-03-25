@@ -25,7 +25,7 @@ const drawObject = () => {
 const initBuffers = (vertices, colors, idx) => {
     gl.enable(gl.DEPTH_TEST);
 
-    gl.depthFunc(gl.LEQUAL); 
+    gl.depthFunc(gl.LEQUAL);
     var verticesBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -63,20 +63,20 @@ const initBuffers = (vertices, colors, idx) => {
     gl.useProgram(program);
 
     var { translation, rotation, scale } = objects[idx];
-    var left = 0;
-    var right = gl.canvas.clientWidth;
-    var bottom = gl.canvas.clientHeight;
-    var top = 0;
-    var near = 800;
-    var far = -800;
+    const left = -1;
+    const right = 1;
+    const bottom = -1;
+    const top = 1;
+    const near = 0.1;
+    const far = 100.0;
     var model_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 
-    if (projectionViewVal == 1) {
+    if (projectionViewVal == 2) {
       proj_matrix = oblique(left, right, bottom, top, near, far);
-    } else if (projectionViewVal == 2) {
+    } else if (projectionViewVal == 1) {
       proj_matrix = orthographic(left, right, bottom, top, near, far);
     } else {
-      proj_matrix = perspective(degToRad(45), canvas.width / canvas.height, 0.1, 100);
+      proj_matrix = perspective(degToRad(45), canvas.width / canvas.height, near, 100);
     }
     model_matrix = translate(model_matrix, translation[0], translation[1], translation[2]);
     model_matrix = xRotate(model_matrix, rotation[0]);

@@ -96,29 +96,24 @@ function getShearMatrix(theta, phi) {
   ];
 }
 
-function oblique(left, right, bottom, top, near, far) {
-  const shx = 0.1;
-  const shy = 0.4;
-  const O = [
-    2 / (right - left),
-    0,
-    0,
-    0,
-    0,
-    2 / (top - bottom),
-    0,
-    0,
-    shx * (2 / (right - left)),
-    shy * (2 / (top - bottom)),
-    2 / (near - far),
-    0,
-    -(right + left) / (right - left),
-    -(top + bottom) / (top - bottom),
-    -(near + far) / (near - far),
-    1,
-  ];
+function getSTMat(left, right, bottom, top, near, far){
+  var a = right - left;
+  b = top - bottom;
+  c = far - near;
 
-  return O;
+  return [
+      2/a,0,0,-1*(left + right)/a,
+      0,2/b,0,-1*(top + bottom)/b,
+      0,0,-2/c,-1*(far + near )/c,
+      0,0,0,1
+  ]
+}
+
+function oblique(left, right, bottom, top, near, far) {
+  const mtx = [ 1,0,0,0, 0,1,0,0, 0,0,0,0, 0,0,0,1 ]
+  const mtx2 = getSTMat(left, right, bottom, top, near, far)
+
+  return multiply(mtx, mtx2);
 }
 
 function orthographic(left, right, bottom, top, near, far) {
@@ -143,26 +138,14 @@ function orthographic(left, right, bottom, top, near, far) {
 }
 
 function perspective(fovy, aspect, near, far) {
-  const f = Math.tan(Math.PI * 0.5 - 0.5 * fovy);
+  const f = 1.0 / Math.tan(fovy / 2);
   const rangeInv = 1.0 / (near - far);
 
   return [
-    f / aspect,
-    0,
-    0,
-    0,
-    0,
-    f,
-    0,
-    0,
-    0,
-    0,
-    (near + far) * rangeInv,
-    -1,
-    0,
-    0,
-    near * far * rangeInv * 2,
-    0,
+    f / aspect, 0, 0, 0,
+    0, f, 0, 0,
+    0, 0, (near + far) * rangeInv, -1,
+    0, 0, 2 * near * far * rangeInv, 0
   ];
 }
 
