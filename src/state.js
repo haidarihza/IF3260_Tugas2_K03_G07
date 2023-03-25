@@ -22,28 +22,29 @@ var saveInput = document.getElementById("saveinput");
 var saveButton = document.getElementById("save-button");
 var selector = document.getElementById("object-option");
 var projectionViewVal = 1;
-const normalMtx = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+var oldValue = 0;
+const normalMtx = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
-function changeSlider(obj, isReset=false) {
-	rotateX.value = obj.rotation[0];
-	rotateY.value = obj.rotation[1];
-	rotateZ.value = obj.rotation[2];
-	translationX.value = obj.translation[0];
-	translationY.value = obj.translation[1];
-	translationZ.value = obj.translation[2];
-	scaleX.value = obj.scale[0];
-	scaleY.value = obj.scale[1];
-	scaleZ.value = obj.scale[2];
-  
-	document.getElementById("rotate-x-value").innerHTML = obj.rotation[0];
-	document.getElementById("rotate-y-value").innerHTML = obj.rotation[1];
-	document.getElementById("rotate-z-value").innerHTML = obj.rotation[2];
-	document.getElementById("translate-x-value").innerHTML = obj.translation[0];
-	document.getElementById("translate-y-value").innerHTML = obj.translation[1];
-	document.getElementById("translate-z-value").innerHTML = obj.translation[2];
-	document.getElementById("scale-x-value").innerHTML = obj.scale[0];
-	document.getElementById("scale-y-value").innerHTML = obj.scale[1];
-	document.getElementById("scale-z-value").innerHTML = obj.scale[2];
+function changeSlider(obj, isReset = false) {
+  rotateX.value = obj.rotation[0];
+  rotateY.value = obj.rotation[1];
+  rotateZ.value = obj.rotation[2];
+  translationX.value = obj.translation[0];
+  translationY.value = obj.translation[1];
+  translationZ.value = obj.translation[2];
+  scaleX.value = obj.scale[0];
+  scaleY.value = obj.scale[1];
+  scaleZ.value = obj.scale[2];
+
+  document.getElementById("rotate-x-value").innerHTML = obj.rotation[0];
+  document.getElementById("rotate-y-value").innerHTML = obj.rotation[1];
+  document.getElementById("rotate-z-value").innerHTML = obj.rotation[2];
+  document.getElementById("translate-x-value").innerHTML = obj.translation[0];
+  document.getElementById("translate-y-value").innerHTML = obj.translation[1];
+  document.getElementById("translate-z-value").innerHTML = obj.translation[2];
+  document.getElementById("scale-x-value").innerHTML = obj.scale[0];
+  document.getElementById("scale-y-value").innerHTML = obj.scale[1];
+  document.getElementById("scale-z-value").innerHTML = obj.scale[2];
 
   if (isReset) {
     cameraRotate.value = 0;
@@ -109,16 +110,21 @@ scaleZ.addEventListener("input", function (e) {
 
 cameraRotate.addEventListener("input", function (e) {
   document.getElementById("camera-rotate-value").innerHTML = e.target.value;
-  cameraRotateVal = degToRad(parseInt(e.target.value));
+  cameraAngleRadians = degToRad(parseInt(e.target.value));
+
+  let move = cameraAngleRadians - oldValue;
+
+  view_matrix = multiply(yRotation(move), view_matrix);
+
+  drawObject();
+
+  oldValue = cameraAngleRadians;
 });
 
-cameraRadius.addEventListener("input", function (e) {
-  document.getElementById("camera-radius-value").innerHTML = e.target.value;
-  cameraRadiusVal = parseInt(e.target.value);
-  // const matrix = [val, 0, 0, 0, 0, val, 0, 0, 0, 0, val, 0, 0, 0, 0, 1];
-  // view_matrix = multiply(matrix, normalMtx);
-  // drawObject();
-});
+function updateZoom(value) {
+  view_matrix = multiply(scaling(value, value, value), view_matrix);
+  drawObject();
+}
 
 projectionView.addEventListener("change", function (e) {
   projectionViewVal = parseInt(e.target.value);
@@ -130,7 +136,7 @@ resetButton.addEventListener("click", function (e) {
     rotation: [0, 0, 0],
     translation: [0, 0, 0],
     scale: [1, 1, 1],
-  }
+  };
   changeSlider(obj, true);
   proj_matrix = normalMtx;
   view_matrix = normalMtx;
@@ -148,15 +154,19 @@ saveButton.addEventListener("click", function (e) {
   let fileName = document.getElementById("saveinput").value;
 
   if (!fileName) {
-      fileName = "model-" + new Date().getTime();
+    fileName = "model-" + new Date().getTime();
   }
   fileName += ".json";
 
-  const element = document.createElement('a');
+  const element = document.createElement("a");
 
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(objects)));
-  element.setAttribute('download', fileName);
-  element.style.display = 'none';
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(objects))
+  );
+  element.setAttribute("download", fileName);
+  element.style.display = "none";
 
   document.body.appendChild(element);
   element.click();
@@ -191,11 +201,11 @@ selector.addEventListener("change", (e) => {
     return;
   }
   changeSlider(objects[selectedIdx]);
-  updateRotate(objects[selectedIdx].vertices, objects[selectedIdx].rotation);
+  // updateRotate(objects[selectedIdx].vertices, objects[selectedIdx].rotation);
 });
 
 //Shader view
 shaderView.addEventListener("change", (e) => {
-    isShading = parseInt(e.target.value);
-    drawObject();
+  isShading = parseInt(e.target.value);
+  drawObject();
 });

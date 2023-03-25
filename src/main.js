@@ -11,6 +11,8 @@ var view_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 var objects = [];
 var selectedIdx = 0;
 var isShading = false;
+var cameraAngleRadians = degToRad(0);
+
 
 const drawObject = () => {
   for (let i = 0; i < objects.length; i++) {
@@ -67,22 +69,20 @@ const initBuffers = (vertices, colors, idx) => {
     var top = 0;
     var near = 800;
     var far = -800;
-    var model_matrix;
+    var model_matrix = [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
 
     if (projectionViewVal == 1) {
-      model_matrix = oblique(left, right, bottom, top, near, far);
+      proj_matrix = oblique(left, right, bottom, top, near, far);
     } else if (projectionViewVal == 2) {
-      model_matrix = orthographic(left, right, bottom, top, near, far);
+      proj_matrix = orthographic(left, right, bottom, top, near, far);
     } else {
-      model_matrix = perspective(degToRad(45), canvas.width / canvas.height, 0.1, 100);
+      proj_matrix = perspective(degToRad(45), canvas.width / canvas.height, 0.1, 100);
     }
-    
     model_matrix = translate(model_matrix, translation[0], translation[1], translation[2]);
     model_matrix = xRotate(model_matrix, rotation[0]);
     model_matrix = yRotate(model_matrix, rotation[1]);
     model_matrix = zRotate(model_matrix, rotation[2]);
     model_matrix = scaleM(model_matrix, scale[0], scale[1], scale[2]);
-
     gl.uniformMatrix4fv(_Pmatrix, false, proj_matrix);
     gl.uniformMatrix4fv(_Vmatrix, false, view_matrix);
     gl.uniformMatrix4fv(_Mmatrix, false, model_matrix);

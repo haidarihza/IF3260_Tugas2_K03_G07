@@ -11,13 +11,15 @@ const vertex = `
     uniform mat4 Vmatrix;
     uniform mat4 Mmatrix;
     uniform mat4 Nmatrix;
+    uniform mat4 Pmatrix;
+    
 
     attribute vec3 color;
     varying vec3 vLighting;
     varying vec3 vColor;
 
     void main(void) {
-        gl_Position = Vmatrix*Mmatrix*vec4(position, 1.);
+        gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
         vec3 ambientLight = normalize(vec3(0.3, 0.3, 0.3));
         vec3 directionalLightColor = normalize(vec3(0.3, 0.3, 0.3));
         vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
