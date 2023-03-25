@@ -96,24 +96,29 @@ function getShearMatrix(theta, phi) {
   ];
 }
 
-function getSTMat(left, right, bottom, top, near, far){
-  var a = right - left;
-  b = top - bottom;
-  c = far - near;
-
-  return [
-      2/a,0,0,-1*(left + right)/a,
-      0,2/b,0,-1*(top + bottom)/b,
-      0,0,-2/c,-1*(far + near )/c,
-      0,0,0,1
-  ]
-}
-
 function oblique(left, right, bottom, top, near, far) {
-  const mtx = [ 1,0,0,0, 0,1,0,0, 0,0,0,0, 0,0,0,1 ]
-  const mtx2 = getSTMat(left, right, bottom, top, near, far)
+  const shx = 0.1;
+  const shy = 0.4;
+  const O = [
+    2 / (right - left),
+    0,
+    0,
+    0,
+    0,
+    2 / (top - bottom),
+    0,
+    0,
+    shx * (2 / (right - left)),
+    shy * (2 / (top - bottom)),
+    2 / (near - far),
+    0,
+    -(right + left) / (right - left),
+    -(top + bottom) / (top - bottom),
+    -(near + far) / (near - far),
+    1,
+  ];
 
-  return multiply(mtx, mtx2);
+  return O;
 }
 
 function orthographic(left, right, bottom, top, near, far) {

@@ -49,6 +49,7 @@ function changeSlider(obj, isReset = false) {
   if (isReset) {
     cameraAngleRadians = 0;
     document.getElementById("camera-rotate-value").innerHTML = 0;
+    isShading = false;
   }
 }
 
@@ -149,6 +150,11 @@ resetButton.addEventListener("click", function (e) {
 });
 
 saveButton.addEventListener("click", function (e) {
+  if (objects.length === 0) {
+    alert("No model to save!");
+    return;
+  }
+
   let fileName = document.getElementById("saveinput").value;
 
   if (!fileName) {
@@ -169,6 +175,7 @@ saveButton.addEventListener("click", function (e) {
   document.body.appendChild(element);
   element.click();
   document.body.removeChild(element);
+  document.getElementById("saveinput").value = "";
   alert("Model saved successfully!");
 });
 
@@ -186,7 +193,7 @@ fileInput.addEventListener("change", function (e) {
     // draw all objects
     drawObject();
     document.getElementById("fileinput").value = "";
-    // alert("Model loaded successfully!");
+    alert("Model loaded successfully!");
   };
   reader.readAsText(file);
 });
@@ -199,7 +206,6 @@ selector.addEventListener("change", (e) => {
     return;
   }
   changeSlider(objects[selectedIdx]);
-  // updateRotate(objects[selectedIdx].vertices, objects[selectedIdx].rotation);
 });
 
 //Shader view
